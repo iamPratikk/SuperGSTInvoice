@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "position: sticky",
+          "width: fit-content",
+          "user-select",
+          "-webkit-text-size-adjust",
+          "@-ms-viewport",
+          "-webkit-tap-highlight-color",
+          "@-ms-viewport"
+        ]
+      }
+    ]
+  }
+}
