@@ -27,6 +27,12 @@ const Payment_received = () => {
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+  const prevDate = dateFrom.slice(-2);
+  const prevMonth = dateFrom.slice(-5, -3);
+  const prevYear = dateFrom.slice(0, 4);
+  const currenDate = dateTill.slice(-2);
+  const currentMonth = dateTill.slice(-5, -3);
+  const currentyear = dateTill.slice(0, 4);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -116,6 +122,7 @@ const Payment_received = () => {
           },
         }
       );
+      // console.log(respone.data)
       if(respone.data){
         setUserData(respone.data);
       }
@@ -311,8 +318,8 @@ const Payment_received = () => {
           <div className="body-table height-400" id="tableParent">
           <div id="printLabel">
             <h5>
-              Receivable Details of {selectedComp} from {dateFrom} to
-              {dateTill}
+              Receivable Details of {selectedComp} from {prevDate}-{prevMonth}-
+                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
             </h5>
           </div>
             <table
@@ -325,9 +332,11 @@ const Payment_received = () => {
             >
               <tr>
                 <th className="text-center" scope="col">
-                  Receivable Details of {selectedComp} from {dateFrom} to
-                  {dateTill}
+                  Receivable Details of
                 </th>
+                <th>{selectedComp}</th>
+                <th>from {prevDate}-{prevMonth}-{prevYear}</th>
+                <th>to {currenDate}-{currentMonth}-{currentyear}</th>
               </tr>
             </thead>
               <thead className="table-dark text-center  header-fixed">
@@ -365,7 +374,23 @@ const Payment_received = () => {
                 </tr>
               </thead>
               <tbody className={isDataPresent ? "d-visible" : "d-none"}>
-                <tr>
+              {userData.map((item,index)=>{
+                return (<tr key={index}>
+                  <th scope="row">{item["payrefid"]}</th>
+                  <td>{item["paydate"].slice(0,10)}</td>
+                  <td>{item["Ref. #"]}</td>
+                  <td>{item["custname"]}</td>
+                  <td>{item["paymodename"]}</td>
+                  <td>{item["remarks"]}</td>
+                  <td>{item["invno"]}</td>
+                  <td>{item["Amount (FCY)"]}</td>
+                  <td>{item["Unadjusted Amount (FCY)"]}</td>
+                  <td>{item["Amount (BCY)"]}</td>
+                </tr>
+                )
+              })}
+                
+                {/* <tr>
                   <th scope="row"></th>
                   <td></td>
                   <td></td>
@@ -400,19 +425,7 @@ const Payment_received = () => {
                   <td></td>
                   <td></td>
                   <td></td>
-                </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
             <div id="printDate">

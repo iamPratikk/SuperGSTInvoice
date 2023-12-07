@@ -19,11 +19,24 @@ const UserLog = () => {
   const [isDataPresent, setIsDataPresent] = useState(false);
   const pdfRef = useRef();
   const [userData, setUserData] = useState([]);
+  const [currentPage, setCurrentpage] = useState(1);
+  const itemsPerPage = 7;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPageItems = userData.slice(startIndex, endIndex);
   const d = new Date();
+  const prevDate = dateFrom.slice(-2);
+  const prevMonth = dateFrom.slice(-5, -3);
+  const prevYear = dateFrom.slice(0, 4);
+  const currenDate = dateTill.slice(-2);
+  const currentMonth = dateTill.slice(-5, -3);
+  const currentyear = dateTill.slice(0, 4);
   const currentTime = d.toLocaleTimeString();
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+
+  // console.log(prevYear)
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -75,6 +88,9 @@ const UserLog = () => {
         if (res.data) {
           setUserData(res.data);
         }
+        if (res.data.length == 0) {
+          setIsDataPresent(false);
+        }
         if (res.data.length > 0) {
           setIsDataPresent(true);
         }
@@ -124,6 +140,17 @@ const UserLog = () => {
     printLabel.classList.add("showLabel");
     window.print();
     printLabel.classList.remove("showLabel");
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(userData.length / itemsPerPage)) {
+      setCurrentpage((prev) => prev + 1);
+    }
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentpage((prev) => prev - 1);
+    }
   };
 
   return (
@@ -242,7 +269,7 @@ const UserLog = () => {
           </div>
         </div>
         <div className="row" ref={pdfRef}>
-        <div className="sidebar-header forPdf" id="pdfLogo">
+          <div className="sidebar-header forPdf" id="pdfLogo">
             <h3>
               <img src={logo} className="img-fluid" alt="" id="small-img" />
               <span>
@@ -261,28 +288,29 @@ const UserLog = () => {
           <div
             className="body-table height-400"
             id="tableParent"
-            
             style={{ minHeight: "170px" }}
           >
-           <div id="printLabel">
+            <div id="printLabel" className="">
               <h5>
-                User Log of {selectedCompany} from {dateFrom} to 
-                 {dateTill}
+                User Log of {selectedCompany} from {prevDate}-{prevMonth}-
+                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
               </h5>
             </div>
             <table
               id="mainTable"
               className="table table-striped table-bordered table-hover "
             >
-            <thead
+              <thead
                 className="table-dark text-center header-fixed"
                 style={{ display: "none" }}
               >
                 <tr>
                   <th className="text-center" scope="col">
-                    User Log of {selectedCompany} from {dateFrom} to
-                    {dateTill}
+                    User Log of
                   </th>
+                  <td>{selectedCompany}</td>
+                  <td>from {dateFrom}</td>
+                  <td>to {dateTill}</td>
                 </tr>
               </thead>
               <thead className="table-dark text-center header-fixed">
@@ -305,7 +333,7 @@ const UserLog = () => {
                 </tr>
               </thead>
               <tbody className={isDataPresent ? "d-visible" : "d-none"}>
-                {userData.map((item, index) => {
+                {currentPageItems.map((item, index) => {
                   return (
                     <tr key={index}>
                       <th scope="row">{item.fullname}</th>
@@ -325,6 +353,34 @@ const UserLog = () => {
             </div>
           </div>
         </div>
+        {isDataPresent ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginRight: "50px",
+            }}
+          >
+            <button
+              type="button"
+              className="btn btn-primary mx-1"
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+            >
+              prev
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary mx-1"
+              onClick={handleNextPage}
+              disabled={
+                currentPage === Math.ceil(userData.length / itemsPerPage)
+              }
+            >
+              Next
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

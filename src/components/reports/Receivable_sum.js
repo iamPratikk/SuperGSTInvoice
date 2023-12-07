@@ -24,6 +24,12 @@ const Receivable_sum = () => {
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+  const prevDate = dateFrom.slice(-2);
+  const prevMonth = dateFrom.slice(-5, -3);
+  const prevYear = dateFrom.slice(0, 4);
+  const currenDate = dateTill.slice(-2);
+  const currentMonth = dateTill.slice(-5, -3);
+  const currentyear = dateTill.slice(0, 4);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -258,8 +264,8 @@ const Receivable_sum = () => {
           <div className="body-table height-400" id="tableParent">
           <div id="printLabel">
               <h5>
-                Receivable Summary of {selectedComp} from {dateFrom} to
-                {dateTill}
+                Receivable Summary of {selectedComp} from {prevDate}-{prevMonth}-
+                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
               </h5>
             </div>
             <table id="mainTable" className="table table-striped table-bordered table-hover ">
@@ -269,9 +275,11 @@ const Receivable_sum = () => {
               >
                 <tr>
                   <th className="text-center" scope="col">
-                  Receivable Summary of {selectedComp} from {dateFrom} to
-                    {dateTill}
+                  Receivable Summary of
                   </th>
+                  <th>{selectedComp}</th>
+                  <th>from {prevDate}-{prevMonth}-{prevYear}</th>
+                  <th>to {currenDate}-{currentMonth}-{currentyear}</th>
                 </tr>
               </thead>
               <thead className="table-dark text-center header-fixed">
@@ -310,15 +318,15 @@ const Receivable_sum = () => {
               </thead>
               <tbody className={isDataPresent?"d-visible":"d-none"} >
                 {userData.map((item,index)=>{
-                  return (<tr key={item["invid"]} >
+                  return (<tr key={index} >
                   <th scope="row">{item["custname"]}</th>
                   <td>{item["invdate"].slice(0,10)}</td>
-                  <td>{item[""]}</td>
-                  <td>{item[""]}</td>
+                  <td>{item["Trans. #"]}</td>
+                  <td>{item["Ref. #"]}</td>
                   <td>{item["Status"]}</td>
                   <td>{item["TranType"]}</td>
                   <td>{item["Total (BCY)"]}</td>
-                  <td>{item[""]}</td>
+                  <td>{item["Total (FCY)"]}</td>
                   <td>{item["Balance (BCY)"]}</td>
                   <td>{item["Balance (FCY)"]}</td>
                 </tr>)

@@ -24,6 +24,12 @@ const Customer_report = () => {
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+  const prevDate = dateFrom.slice(-2);
+  const prevMonth = dateFrom.slice(-5, -3);
+  const prevYear = dateFrom.slice(0, 4);
+  const currenDate = dateTill.slice(-2);
+  const currentMonth = dateTill.slice(-5, -3);
+  const currentyear = dateTill.slice(0, 4);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -59,6 +65,7 @@ const Customer_report = () => {
         }
       )
       .then((res) => {
+        console.log(res.data)
         if (res.data) {
           setUserData(res.data);
         }
@@ -97,6 +104,8 @@ const Customer_report = () => {
       html2canvas(input).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4", true);
+        pdf.text("Hello world",20,20);
+        // pdf.lineTo(10,10);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
         const imgWidth = canvas.width;
@@ -260,8 +269,8 @@ const Customer_report = () => {
           <div className="body-table height-400" id="tableParent">
             <div id="printLabel">
               <h5>
-                Customer Report of {selectedCompany} from {dateFrom} to
-                {dateTill}
+                Customer Report of {selectedCompany} from {prevDate}-{prevMonth}-
+                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
               </h5>
             </div>
 
@@ -275,9 +284,11 @@ const Customer_report = () => {
               >
                 <tr>
                   <th className="text-center" scope="col">
-                    Customer Report of {selectedCompany} from {dateFrom} to
-                    {dateTill}
+                    Customer Report of 
                   </th>
+                  <th>{selectedCompany}</th>
+                  <th>from {prevDate}-{prevMonth}-{prevYear}</th>
+                  <th>to {currenDate}-{currentMonth}-{currentyear}</th>
                 </tr>
               </thead>
               <thead className="table-dark text-center header-fixed">
@@ -303,7 +314,7 @@ const Customer_report = () => {
                       <th scope="row">{item["custname"]}</th>
                       <td>{item["InvoiceCount"]}</td>
                       <td>{item["TotalSales"]}</td>
-                      <td>{item[""]}</td>
+                      <td>{item["TotalSalesWithTax"]}</td>
                     </tr>
                   );
                 })}

@@ -25,6 +25,12 @@ const FormNo27 = () => {
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+  const prevDate = dateFrom.slice(-2);
+  const prevMonth = dateFrom.slice(-5, -3);
+  const prevYear = dateFrom.slice(0, 4);
+  const currenDate = dateTill.slice(-2);
+  const currentMonth = dateTill.slice(-5, -3);
+  const currentyear = dateTill.slice(0, 4);
 
 
   useEffect(() => {
@@ -120,7 +126,7 @@ const FormNo27 = () => {
       .then((res) => {
         if (res.data) {
           setUserData(res.data);
-          // console.log(res.data)
+          console.log(res.data)
         }
         if (res.data.length > 0) {
           setIsDataPresent(true);
@@ -275,8 +281,8 @@ const FormNo27 = () => {
           <div className="body-table height-400" id="tableParent">
           <div id="printLabel">
             <h5>
-              Form No. 27 EQ of {selectedComp} from {dateFrom} to
-              {dateTill}
+              Form No. 27 EQ of {selectedComp} from {prevDate}-{prevMonth}-
+                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
             </h5>
           </div>
             <table
@@ -337,13 +343,13 @@ const FormNo27 = () => {
                   <th scope="row">{item["Party PAN No."]}</th>
                   <td>{item["Party Name"]}</td>
                   <td>{item["Invoice #"]}</td>
-                  <td>{item[""]}</td>
+                  <td>{item["Total Value"]}</td>
                   <td>{item["Payment #"]}</td>
                   <td>{item["Amount Received"]}</td>
-                  <td>{item[""]}</td>
-                  <td>{item["Reason for Collection & Heigher Rate"]}</td>
-                  <td>{item["Collection Date"]}</td>
-                  <td>{item["Tax Value"]}</td>
+                  <td>{item["Collection Code"]}</td>
+                  <td>{item["Reason for Collection At Higher Rate"]}</td>
+                  <td>{item["Date For Collection"].slice(0,10)}</td>
+                  <td>{item["Tax Collection"]}</td>
                   <td>{item["Payment Mode (%)"]}</td>
                 </tr>)
               })}

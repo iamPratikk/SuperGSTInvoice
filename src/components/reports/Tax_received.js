@@ -25,6 +25,12 @@ const Tax_received = () => {
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+  const prevDate = dateFrom.slice(-2);
+  const prevMonth = dateFrom.slice(-5, -3);
+  const prevYear = dateFrom.slice(0, 4);
+  const currenDate = dateTill.slice(-2);
+  const currentMonth = dateTill.slice(-5, -3);
+  const currentyear = dateTill.slice(0, 4);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -254,8 +260,8 @@ const Tax_received = () => {
           <div className="body-table height-400" id="tableParent">
           <div id="printLabel">
             <h5>
-              Tax Summary of {selectedComp} from {dateFrom} to
-              {dateTill}
+              Tax Summary of {selectedComp} from {prevDate}-{prevMonth}-
+                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
             </h5>
           </div>
             <table
@@ -268,9 +274,11 @@ const Tax_received = () => {
             >
               <tr>
                 <th className="text-center" scope="col">
-                  Tax Summary of {selectedComp} from {dateFrom} to
-                  {dateTill}
+                  Tax Summary of
                 </th>
+                <th>{selectedComp}</th>
+                <th>from {prevDate}-{prevMonth}-{prevYear}</th>
+                <th>to {currenDate}-{currentMonth}-{currentyear}</th>
               </tr>
             </thead>
               <thead className="table-dark text-center header-fixed">
