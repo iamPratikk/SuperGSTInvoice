@@ -6,6 +6,7 @@ import TableToExcel from "react-html-table-to-excel";
 import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
 import GetCompany from "./GetCompany";
 import logo from "../../assets/img/logo.jpeg";
+import { options } from "./CommonFunction";
 
 const Customer_report = () => {
   const userName = process.env.REACT_APP_API_USERNAME;
@@ -104,7 +105,6 @@ const Customer_report = () => {
       html2canvas(input).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("p", "mm", "a4", true);
-        pdf.text("Hello world",20,20);
         // pdf.lineTo(10,10);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
@@ -293,16 +293,16 @@ const Customer_report = () => {
               </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Customer Name{" "}
                   </th>
                   <th className="text-center" scope="col">
                     Invoice Count
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Sales
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Sales with Tax
                   </th>
                 </tr>
@@ -311,10 +311,10 @@ const Customer_report = () => {
                 {userData.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{item["custname"]}</th>
+                      <th style={{textAlign:"left"}} scope="row">{item["custname"]}</th>
                       <td>{item["InvoiceCount"]}</td>
-                      <td>{item["TotalSales"]}</td>
-                      <td>{item["TotalSalesWithTax"]}</td>
+                      <td style={{textAlign:"right"}} >{parseFloat(item["TotalSales"]).toLocaleString('en-IN',options)}</td>
+                      <td style={{textAlign:"right"}} >{parseFloat(item["TotalSalesWithTax"]).toLocaleString('en-IN',options)}</td>
                     </tr>
                   );
                 })}

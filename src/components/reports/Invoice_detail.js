@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate,getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate,getCurrentDate, options } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 const Invoice_detail = () => {
@@ -297,10 +297,10 @@ const Invoice_detail = () => {
                   <th className="text-center" scope="col">
                     Order #
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Customer Name
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Total
                   </th>
                 </tr>
@@ -313,8 +313,8 @@ const Invoice_detail = () => {
                   <td>{item["duedate"].slice(0,10)}</td>
                   <td>{item["invno"]}</td>
                   <td>{item["ordno"]}</td>
-                  <td>{item["custname"]}</td>
-                  <td>{item["total"]}</td>
+                  <td style={{textAlign:"left"}} >{item["custname"]}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["total"]).toLocaleString('en-IN',options)}</td>
                 </tr>)
                 })}
                 

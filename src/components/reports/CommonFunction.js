@@ -14,7 +14,7 @@ export function getOneWeekAgoDate() {
     return formattedDate;
   }
 
-  export const getCurrentDate = () => {
+export const getCurrentDate = () => {
     const today = new Date();
 
   const year = today.getFullYear();
@@ -28,6 +28,10 @@ export function getOneWeekAgoDate() {
 
   const d= new Date();
   export const currentTime= d.toLocaleTimeString();
+  export const options={
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+}
   // export const hour=currentTime.slice(0,2);
   // export const minute=currentTime.slice(3,5);
 

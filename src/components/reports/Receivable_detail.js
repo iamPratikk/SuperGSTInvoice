@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, options } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 const Receivable_detail = () => {
@@ -345,9 +345,9 @@ const Receivable_detail = () => {
             <thead className="table-dark text-center header-fixed">
               <tr>
                 <th
-                  className="text-center"
+                  className=""
                   scope="col"
-                  style={{ position: "relative" }}
+                  style={{textAlign:"left"}}
                 >
                   Customer Name
                 </th>
@@ -366,16 +366,16 @@ const Receivable_detail = () => {
                 <th className="text-center" scope="col">
                   Trans. Type
                 </th>
-                <th className="text-center" scope="col">
+                <th style={{textAlign:"left"}} className="" scope="col">
                   Item Name
                 </th>
                 <th className="text-center" scope="col">
                   Quantity
                 </th>
-                <th className="text-center" scope="col">
+                <th style={{textAlign:"right"}} className="" scope="col">
                   Item Price (BCY)
                 </th>
-                <th className="text-center" scope="col">
+                <th style={{textAlign:"right"}} className="" scope="col">
                   Total (BCY)
                 </th>
               </tr>
@@ -384,16 +384,16 @@ const Receivable_detail = () => {
               {userData.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <th scope="row">{item["custname"]}</th>
+                    <th style={{textAlign:"left"}} scope="row">{item["custname"]}</th>
                     <td>{item["invdate"].slice(0, 10)}</td>
                     <td>{item["Trans. #"]}</td>
                     <td>{item["Ref. #"]}</td>
                     <td>{item["Status"]}</td>
                     <td>{item["Trans. Type"]}</td>
-                    <td>{item["itemname"]}</td>
+                    <td style={{textAlign:"left"}} >{item["itemname"]}</td>
                     <td>{item["quantity"]}</td>
-                    <td>{item["Item Price (BCY)"]}</td>
-                    <td>{item["Total (BCY)"]}</td>
+                    <td style={{textAlign:"right"}}>{parseFloat(item["Item Price (BCY)"]).toLocaleString('en-IN',options)}</td>
+                    <td style={{textAlign:"right"}} >{parseFloat(item["Total (BCY)"]).toLocaleString('en-IN',options)}</td>
                   </tr>
                 );
               })}

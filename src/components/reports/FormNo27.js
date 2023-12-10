@@ -3,7 +3,7 @@ import GetCompany from "./GetCompany";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, options } from "./CommonFunction";
 import axios from "axios";
 import logo from "../../assets/img/logo.jpeg";
 
@@ -305,7 +305,7 @@ const FormNo27 = () => {
                   <th className="text-center" scope="col">
                     Party PAN No.
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Party Name
                   </th>
                   <th className="text-center" scope="col">
@@ -317,23 +317,23 @@ const FormNo27 = () => {
                   <th className="text-center" scope="col">
                     Payment #
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Amount Received
                   </th>
                   <th className="text-center" scope="col">
                     Collection Code
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Reason for Collection at Higher Rate{" "}
                   </th>
                   <th className="text-center" scope="col">
                     Date for Collection
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Tax Collection
                   </th>
                   <th className="text-center" scope="col">
-                    Payment Mode (%)
+                    Payment Mode
                   </th>
                 </tr>
               </thead>
@@ -341,15 +341,15 @@ const FormNo27 = () => {
               {userData.map((item,index)=>{
                 return (<tr key={index} >
                   <th scope="row">{item["Party PAN No."]}</th>
-                  <td>{item["Party Name"]}</td>
+                  <td style={{textAlign:"left"}} >{item["Party Name"]}</td>
                   <td>{item["Invoice #"]}</td>
                   <td>{item["Total Value"]}</td>
                   <td>{item["Payment #"]}</td>
-                  <td>{item["Amount Received"]}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["Amount Received"]).toLocaleString('en-IN',options)}</td>
                   <td>{item["Collection Code"]}</td>
-                  <td>{item["Reason for Collection At Higher Rate"]}</td>
+                  <td style={{textAlign:"left"}} >{item["Reason for Collection At Higher Rate"]}</td>
                   <td>{item["Date For Collection"].slice(0,10)}</td>
-                  <td>{item["Tax Collection"]}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["Tax Collection"]).toLocaleString('en-IN',options)}</td>
                   <td>{item["Payment Mode (%)"]}</td>
                 </tr>)
               })}

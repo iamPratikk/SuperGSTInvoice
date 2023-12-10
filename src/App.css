@@ -1986,6 +1986,9 @@ table td {
   position: relative;
   top: -10px;
 }
+.dropdown-item{
+  cursor: pointer;
+}
 /* @media print {
   * {
     display: none;

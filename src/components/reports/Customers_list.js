@@ -79,7 +79,7 @@ const Customers_list = () => {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setStates(response.data);
     } catch (err) {
       console.log(err);
@@ -346,7 +346,7 @@ const Customers_list = () => {
               </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Customer Name{" "}
                   </th>
                   <th className="text-center" scope="col">
@@ -379,7 +379,7 @@ const Customers_list = () => {
                 {userData.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{item["custname"]}</th>
+                      <th style={{textAlign:"left"}} scope="row">{item["custname"]}</th>
                       <td>{item["compname"]}</td>
                       <td>{item["billcity"]}</td>
                       <td>{item["statename"]}</td>

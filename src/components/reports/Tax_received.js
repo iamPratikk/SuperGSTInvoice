@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, options } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 
@@ -283,16 +283,16 @@ const Tax_received = () => {
             </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Tax Name
                   </th>
                   <th className="text-center" scope="col">
                     Tax Percentage
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Taxable Amount
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Tax Amount
                   </th>
                 </tr>
@@ -300,10 +300,10 @@ const Tax_received = () => {
               <tbody className={isDataPresent ? "d-visible" : "d-none"}>
               {userData.map((item,index)=>{
                 return (<tr key={index} >
-                  <th scope="row">{item["TaxName"]}</th>
+                  <th style={{textAlign:"left"}} scope="row">{item["TaxName"]}</th>
                   <td>{item["TaxPercentage"]}</td>
-                  <td>{item["TaxableAmount"]}</td>
-                  <td>{item["TaxAmount"]}</td>
+                  <td style={{textAlign:"right"}}>{parseFloat(item["TaxableAmount"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}}>{parseFloat(item["TaxAmount"]).toLocaleString('en-IN',options)}</td>
                 </tr>)
               })}
                 

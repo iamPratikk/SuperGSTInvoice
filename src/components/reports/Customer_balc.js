@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
 import logo from "../../assets/img/logo.jpeg";
-import { getCurrentDate } from "./CommonFunction";
+import { getCurrentDate, options } from "./CommonFunction";
 
 const Customer_balc = () => {
   let userName = process.env.REACT_APP_API_USERNAME;
@@ -227,19 +227,19 @@ const Customer_balc = () => {
               </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Customer Name{" "}
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Invoice Balance (FCY){" "}
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Available Credit (FCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Balance (FCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Balance (BCY)
                   </th>
                 </tr>
@@ -247,11 +247,11 @@ const Customer_balc = () => {
               <tbody className={isDataPresent ? "d-visible" : "d-none"}>
               {userData.map((item,index)=>{
                 return (<tr key={index}>
-                  <th scope="row">{item.custname}</th>
-                  <td>{item["invbalance (FCY)"]}</td>
-                  <td>{item["AvailableCredit (FCY)"]}</td>
-                  <td>{item["Balance (FCY)"]}</td>
-                  <td>{item["Balance (BCY)"]}</td>
+                  <th style={{textAlign:"left"}} scope="row">{item.custname}</th>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["invbalance (FCY)"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["AvailableCredit (FCY)"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["Balance (FCY)"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["Balance (BCY)"]).toLocaleString('en-IN',options)}</td>
                 </tr>)
               })}
                 

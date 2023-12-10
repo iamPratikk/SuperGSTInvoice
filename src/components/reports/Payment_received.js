@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, options } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 const Payment_received = () => {
@@ -20,7 +20,7 @@ const Payment_received = () => {
   const [custName, setCustName] = useState("");
   const [custId, setCustId] = useState("");
   const [isDataPresent, setIsDataPresent] = useState(false);
-  const [userData, setUserData]= useState([]);
+  const [userData, setUserData] = useState([]);
   const pdfRef = useRef();
   const d = new Date();
   const currentTime = d.toLocaleTimeString();
@@ -123,11 +123,11 @@ const Payment_received = () => {
         }
       );
       // console.log(respone.data)
-      if(respone.data){
+      if (respone.data) {
         setUserData(respone.data);
       }
-      if(respone.data.length>0){
-        setIsDataPresent(true)
+      if (respone.data.length > 0) {
+        setIsDataPresent(true);
       }
     } catch (error) {
       console.log(error);
@@ -300,45 +300,49 @@ const Payment_received = () => {
           </div>
         </div>
         <div className="row" ref={pdfRef}>
-        <div className="sidebar-header forPdf" id="pdfLogo">
-          <h3>
-            <img src={logo} className="img-fluid" alt="" id="small-img" />
-            <span>
-              <img
-                src={logo}
-                className="img-fluid"
-                alt=""
-                id="big-img"
-                style={{ width: "110px" }}
-              />{" "}
-              <span className="logo-s">Invoice</span>
-            </span>
-          </h3>
-        </div>
-          <div className="body-table height-400" id="tableParent">
-          <div id="printLabel">
-            <h5>
-              Receivable Details of {selectedComp} from {prevDate}-{prevMonth}-
-                {prevYear} to {currenDate}-{currentMonth}-{currentyear}
-            </h5>
+          <div className="sidebar-header forPdf" id="pdfLogo">
+            <h3>
+              <img src={logo} className="img-fluid" alt="" id="small-img" />
+              <span>
+                <img
+                  src={logo}
+                  className="img-fluid"
+                  alt=""
+                  id="big-img"
+                  style={{ width: "110px" }}
+                />{" "}
+                <span className="logo-s">Invoice</span>
+              </span>
+            </h3>
           </div>
+          <div className="body-table height-400" id="tableParent">
+            <div id="printLabel">
+              <h5>
+                Receivable Details of {selectedComp} from {prevDate}-{prevMonth}
+                -{prevYear} to {currenDate}-{currentMonth}-{currentyear}
+              </h5>
+            </div>
             <table
               id="mainTable"
               className="table table-striped table-bordered table-hover "
             >
-            <thead
-              className="table-dark text-center header-fixed"
-              style={{ display: "none" }}
-            >
-              <tr>
-                <th className="text-center" scope="col">
-                  Receivable Details of
-                </th>
-                <th>{selectedComp}</th>
-                <th>from {prevDate}-{prevMonth}-{prevYear}</th>
-                <th>to {currenDate}-{currentMonth}-{currentyear}</th>
-              </tr>
-            </thead>
+              <thead
+                className="table-dark text-center header-fixed"
+                style={{ display: "none" }}
+              >
+                <tr>
+                  <th className="text-center" scope="col">
+                    Receivable Details of
+                  </th>
+                  <th>{selectedComp}</th>
+                  <th>
+                    from {prevDate}-{prevMonth}-{prevYear}
+                  </th>
+                  <th>
+                    to {currenDate}-{currentMonth}-{currentyear}
+                  </th>
+                </tr>
+              </thead>
               <thead className="table-dark text-center  header-fixed">
                 <tr>
                   <th className="text-center" scope="col">
@@ -350,7 +354,7 @@ const Payment_received = () => {
                   <th className="text-center" scope="col">
                     Ref. #
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Customer Name
                   </th>
                   <th className="text-center" scope="col">
@@ -362,77 +366,41 @@ const Payment_received = () => {
                   <th className="text-center" scope="col">
                     Invoice #
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Amount (FCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Unadjusted Amount (FCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Amount (BCY)
                   </th>
                 </tr>
               </thead>
               <tbody className={isDataPresent ? "d-visible" : "d-none"}>
-              {userData.map((item,index)=>{
-                return (<tr key={index}>
-                  <th scope="row">{item["payrefid"]}</th>
-                  <td>{item["paydate"].slice(0,10)}</td>
-                  <td>{item["Ref. #"]}</td>
-                  <td>{item["custname"]}</td>
-                  <td>{item["paymodename"]}</td>
-                  <td>{item["remarks"]}</td>
-                  <td>{item["invno"]}</td>
-                  <td>{item["Amount (FCY)"]}</td>
-                  <td>{item["Unadjusted Amount (FCY)"]}</td>
-                  <td>{item["Amount (BCY)"]}</td>
-                </tr>
-                )
-              })}
-                
-                {/* <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr> */}
+                {userData.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <th scope="row">{item["payrefid"]}</th>
+                      <td>{item["paydate"].slice(0, 10)}</td>
+                      <td>{item["Ref. #"]}</td>
+                      <td style={{textAlign:"left"}} >{item["custname"]}</td>
+                      <td>{item["paymodename"]}</td>
+                      <td>{item["remarks"]}</td>
+                      <td>{item["invno"]}</td>
+                      <td style={{textAlign:"right"}} >{parseFloat(item["Amount (FCY)"]).toLocaleString('en-IN',options)}</td>
+                      <td style={{textAlign:"right"}} >{parseFloat(item["Unadjusted Amount (FCY)"]).toLocaleString('en-IN',options)}</td>
+                      <td style={{textAlign:"right"}} >{parseFloat(item["Amount (BCY)"]).toLocaleString('en-IN',options)}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             <div id="printDate">
-            <p>
-              Date-{today} || {hour}:{minute}
-            </p>
-          </div>
+              <p>
+                Date-{today} || {hour}:{minute}
+              </p>
+            </div>
           </div>
         </div>
       </div>

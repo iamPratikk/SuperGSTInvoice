@@ -315,13 +315,13 @@ const UserLog = () => {
               </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     User Name
                   </th>
                   <th className="text-center" scope="col">
                     User Type
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Action
                   </th>
                   <th className="text-center" scope="col">
@@ -336,9 +336,9 @@ const UserLog = () => {
                 {currentPageItems.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{item.fullname}</th>
+                      <th style={{textAlign:"left"}} scope="row">{item.fullname}</th>
                       <td>{item.usertype}</td>
-                      <td>{item.logaction}</td>
+                      <td style={{textAlign:"left"}} >{item.logaction}</td>
                       <td>{item.logdate.slice(0, 10)}</td>
                       <td>{item.workedon}</td>
                     </tr>
@@ -367,9 +367,10 @@ const UserLog = () => {
               onClick={handlePrevPage}
               disabled={currentPage === 1}
             >
-              prev
+              Previous
             </button>
             <button
+            style={{width:"75px"}}
               type="button"
               className="btn btn-primary mx-1"
               onClick={handleNextPage}

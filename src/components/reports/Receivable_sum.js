@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate,getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate,getCurrentDate, options } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 const Receivable_sum = () => {
@@ -284,7 +284,7 @@ const Receivable_sum = () => {
               </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Customer Name{" "}
                   </th>
                   <th className="text-center" scope="col">
@@ -302,16 +302,16 @@ const Receivable_sum = () => {
                   <th className="text-center" scope="col">
                     Trans. Type
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Total (BCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Total (FCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Balance (BCY)
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Balance (FCY)
                   </th>
                 </tr>
@@ -319,16 +319,16 @@ const Receivable_sum = () => {
               <tbody className={isDataPresent?"d-visible":"d-none"} >
                 {userData.map((item,index)=>{
                   return (<tr key={index} >
-                  <th scope="row">{item["custname"]}</th>
+                  <th style={{textAlign:"left"}} scope="row">{item["custname"]}</th>
                   <td>{item["invdate"].slice(0,10)}</td>
                   <td>{item["Trans. #"]}</td>
                   <td>{item["Ref. #"]}</td>
                   <td>{item["Status"]}</td>
                   <td>{item["TranType"]}</td>
-                  <td>{item["Total (BCY)"]}</td>
-                  <td>{item["Total (FCY)"]}</td>
-                  <td>{item["Balance (BCY)"]}</td>
-                  <td>{item["Balance (FCY)"]}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["Total (BCY)"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["Total (FCY)"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}}>{parseFloat(item["Balance (BCY)"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}}>{parseFloat(item["Balance (FCY)"]).toLocaleString('en-IN',options)}</td>
                 </tr>)
                 })}
                 

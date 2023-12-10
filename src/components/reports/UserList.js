@@ -113,6 +113,7 @@ const UserList = () => {
       }
     } catch (err) {
       console.log(err);
+      Swal.fire(err.message.slice(0,15));
     }
   };
 
@@ -260,9 +261,9 @@ const UserList = () => {
               <thead className="table-dark text-center header-fixed">
                 <tr>
                   <th
-                    className="text-center"
+                    className=""
                     scope="col"
-                    style={{ position: "relative" }}
+                    style={{textAlign:"left"}}
                   >
                     User Name
                   </th>
@@ -284,7 +285,7 @@ const UserList = () => {
                 {userData.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{item.fullname}</th>
+                      <th style={{textAlign:"left"}} scope="row">{item.fullname}</th>
                       <td>{item.usertype}</td>
                       <td>{item.updon}</td>
                       <td>{item.status}</td>

@@ -4,7 +4,7 @@ import axios from "axios";
 import TableToExcel from "react-html-table-to-excel";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { getCurrentDate, getOneWeekAgoDate } from "./CommonFunction";
+import { getCurrentDate, getOneWeekAgoDate, options } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 
@@ -12,7 +12,7 @@ const Item_report = () => {
   let userName = process.env.REACT_APP_API_USERNAME;
   let passWord = process.env.REACT_APP_API_PASSORD;
   const companies = GetCompany();
-  console.log(companies[0]);
+  // console.log(companies[0]);
   const [selectedComp, setSelectedComp] = useState("");
   const [compId, setCompId] = useState("");
   const [showDiv, setShowDiv] = useState(false);
@@ -285,16 +285,16 @@ const Item_report = () => {
               </thead>
               <thead className="table-dark text-center header-fixed">
                 <tr>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"left"}} className="" scope="col">
                     Item Name{" "}
                   </th>
                   <th className="text-center" scope="col">
                     Quality Sold{" "}
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Average Price
                   </th>
-                  <th className="text-center" scope="col">
+                  <th style={{textAlign:"right"}} className="" scope="col">
                     Amount
                   </th>
                 </tr>
@@ -302,10 +302,10 @@ const Item_report = () => {
               <tbody className={isDataPresent?"d-visible":"d-none"}>
                 {userData.map((item,index)=>{
                   return(<tr key={index}>
-                  <th scope="row">{item["itemname"]}</th>
+                  <th style={{textAlign:"left"}} scope="row">{item["itemname"]}</th>
                   <td>{item["TotalQuantity"]}</td>
-                  <td>{parseFloat(item["AverageRate"]).toFixed(2)}</td>
-                  <td>{item["TotalSales"]}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["AverageRate"]).toLocaleString('en-IN',options)}</td>
+                  <td style={{textAlign:"right"}} >{parseFloat(item["TotalSales"]).toLocaleString('en-IN',options)}</td>
                 </tr>)
                 })}
                 
