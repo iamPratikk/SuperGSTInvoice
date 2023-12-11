@@ -32,6 +32,8 @@ export const getCurrentDate = () => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
 }
+export const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+export const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }
   // export const hour=currentTime.slice(0,2);
   // export const minute=currentTime.slice(3,5);
 

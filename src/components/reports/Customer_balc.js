@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
 import logo from "../../assets/img/logo.jpeg";
-import { getCurrentDate, options } from "./CommonFunction";
+import { dateOptions, getCurrentDate, options, timeOptions } from "./CommonFunction";
 
 const Customer_balc = () => {
   let userName = process.env.REACT_APP_API_USERNAME;
@@ -18,13 +18,15 @@ const Customer_balc = () => {
   const [userData, setUserData]= useState([]);
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
   const date= d.getDate();
   const month= (d.getMonth()+1);
   const year= d.getFullYear();
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
+
   
   useEffect(() => {
     getCompanyId();
@@ -96,7 +98,7 @@ const Customer_balc = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`CustBalc${date}|${hour}:${minute}.pdf`);
+        pdf.save(`CustBalc_${year}${month}${date}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -176,7 +178,7 @@ const Customer_balc = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={"Cust-balc"+date}
+                      filename={`CustBalc_${year}${month}${date}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -221,8 +223,10 @@ const Customer_balc = () => {
               >
                 <tr>
                   <th className="text-center" scope="col">
-                  Customer Balance of {selectedComp} on {today}
+                  Customer Balance of
                   </th>
+                  <th>{selectedComp}</th>
+                  <th>on {today}</th>
                 </tr>
               </thead>
               <thead className="table-dark text-center header-fixed">
@@ -259,7 +263,7 @@ const Customer_balc = () => {
             </table>
             <div id="printDate">
               <p>
-                Date-{today} || {hour}:{minute}
+                Date-{formattedDate} || {hour}:{minute}
               </p>
             </div>
           </div>

@@ -6,7 +6,7 @@ import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
 import logo from "../../assets/img/logo.jpeg";
 import { async } from "q";
-import { getCurrentDate } from "./CommonFunction";
+import { dateOptions, getCurrentDate, timeOptions } from "./CommonFunction";
 import Swal from "sweetalert2"
 
 const UserList = () => {
@@ -20,11 +20,15 @@ const UserList = () => {
   const pdfRef = useRef();
   const [userData, setUserData] = useState([]);
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
-  const [changeStatus,setChangeStatus]= useState(false)
+  const currenDate = today.slice(-2);
+  const currentMonth = today.slice(-5, -3);
+  const currentyear = today.slice(0, 4);
+  const [changeStatus,setChangeStatus]= useState(false);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
   // const date = d.getDate();
 
   useEffect(() => {
@@ -75,7 +79,7 @@ const UserList = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`UserList${today}|${hour}:${minute}.pdf`);
+        pdf.save(`UserList_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -205,7 +209,7 @@ const UserList = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={`UserList${today}|${hour}:${minute}`}
+                      filename={`UserList_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -305,7 +309,7 @@ const UserList = () => {
             </table>
             <div id="printDate">
             <p>
-              Date-{today} || {hour}:{minute}
+              Date-{formattedDate} || {hour}:{minute}
             </p>
           </div>
           </div>

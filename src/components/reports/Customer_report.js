@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, dateOptions, timeOptions } from "./CommonFunction";
 import GetCompany from "./GetCompany";
 import logo from "../../assets/img/logo.jpeg";
 import { options } from "./CommonFunction";
@@ -21,16 +21,17 @@ const Customer_report = () => {
   const [userData, setUserData] = useState([]);
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-In',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
-  const today = getCurrentDate();
   const prevDate = dateFrom.slice(-2);
   const prevMonth = dateFrom.slice(-5, -3);
   const prevYear = dateFrom.slice(0, 4);
   const currenDate = dateTill.slice(-2);
   const currentMonth = dateTill.slice(-5, -3);
   const currentyear = dateTill.slice(0, 4);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
+  // console.log(currentTime)
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -66,7 +67,7 @@ const Customer_report = () => {
         }
       )
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data) {
           setUserData(res.data);
         }
@@ -121,7 +122,7 @@ const Customer_report = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`CustReport${dateTill}|${hour}:${minute}.pdf`);
+        pdf.save(`SalesByCustomer_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -234,7 +235,7 @@ const Customer_report = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={`CustReport${dateTill}|${hour}:${minute}`}
+                      filename={`SalesByCustomer_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -322,7 +323,7 @@ const Customer_report = () => {
             </table>
             <div id="printDate">
               <p>
-                Date-{today} || {hour}:{minute}
+                Date-{formattedDate} || {hour}:{minute}
               </p>
             </div>
           </div>

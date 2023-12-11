@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate,getCurrentDate, options } from "./CommonFunction";
+import { getOneWeekAgoDate,getCurrentDate, options, timeOptions, dateOptions } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 const Receivable_sum = () => {
@@ -20,16 +20,16 @@ const Receivable_sum = () => {
   const [userData, setUserData]= useState([]);
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
-  const today = getCurrentDate();
   const prevDate = dateFrom.slice(-2);
   const prevMonth = dateFrom.slice(-5, -3);
   const prevYear = dateFrom.slice(0, 4);
   const currenDate = dateTill.slice(-2);
   const currentMonth = dateTill.slice(-5, -3);
   const currentyear = dateTill.slice(0, 4);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -118,7 +118,7 @@ const Receivable_sum = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`RecSum${dateTill}|${hour}:${minute}.pdf`);
+        pdf.save(`RecSum_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -232,7 +232,7 @@ const Receivable_sum = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={`RecSum${dateTill}|${hour}:${minute}`}
+                      filename={`RecSum_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -336,7 +336,7 @@ const Receivable_sum = () => {
             </table>
             <div id="printDate">
               <p>
-                Date-{today} || {hour}:{minute}
+                Date-{formattedDate} || {hour}:{minute}
               </p>
             </div>
           </div>

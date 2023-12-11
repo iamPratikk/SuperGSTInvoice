@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate, options } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, options, timeOptions, dateOptions } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 
@@ -21,7 +21,7 @@ const Tax_received = () => {
   const [userData, setUserData]= useState([]);
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
@@ -31,6 +31,7 @@ const Tax_received = () => {
   const currenDate = dateTill.slice(-2);
   const currentMonth = dateTill.slice(-5, -3);
   const currentyear = dateTill.slice(0, 4);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -116,7 +117,7 @@ const Tax_received = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`TaxSum${dateTill}|${hour}:${minute}.pdf`);
+        pdf.save(`TaxSum_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -228,7 +229,7 @@ const Tax_received = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={`TaxSum${dateTill}|${hour}:${minute}.pdf`}
+                      filename={`TaxSum_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -311,7 +312,7 @@ const Tax_received = () => {
             </table>
             <div id="printDate">
             <p>
-              Date-{today} || {hour}:{minute}
+              Date-{formattedDate} || {hour}:{minute}
             </p>
           </div>
           </div>

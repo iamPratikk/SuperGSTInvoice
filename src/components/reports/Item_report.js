@@ -4,7 +4,7 @@ import axios from "axios";
 import TableToExcel from "react-html-table-to-excel";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { getCurrentDate, getOneWeekAgoDate, options } from "./CommonFunction";
+import { dateOptions, getCurrentDate, getOneWeekAgoDate, options, timeOptions } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 
@@ -22,20 +22,20 @@ const Item_report = () => {
   const [userData, setUserData]= useState([]);
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
-  const today = getCurrentDate();
   const prevDate = dateFrom.slice(-2);
   const prevMonth = dateFrom.slice(-5, -3);
   const prevYear = dateFrom.slice(0, 4);
   const currenDate = dateTill.slice(-2);
   const currentMonth = dateTill.slice(-5, -3);
   const currentyear = dateTill.slice(0, 4);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
   // console.log(today)
 
   useEffect(() => {
-    setDateTill(today);
+    setDateTill(getCurrentDate());
     setDateFrom(getOneWeekAgoDate());
   }, []);
 
@@ -89,7 +89,7 @@ const Item_report = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`Itemreport${dateTill}|${hour}:${minute}.pdf`);
+        pdf.save(`SalesByItem_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -233,7 +233,7 @@ const Item_report = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={"Item-report"+dateTill}
+                      filename={`SalesByItem_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -313,7 +313,7 @@ const Item_report = () => {
             </table>
             <div id="printDate">
               <p>
-                Date-{today} || {hour}:{minute}
+                Date-{formattedDate} || {hour}:{minute}
               </p>
             </div>
           </div>

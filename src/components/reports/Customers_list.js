@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
 import logo from "../../assets/img/logo.jpeg";
-import { getCurrentDate } from "./CommonFunction";
+import { dateOptions, getCurrentDate, timeOptions } from "./CommonFunction";
 
 const Customers_list = () => {
   let userName = process.env.REACT_APP_API_USERNAME;
@@ -24,10 +24,14 @@ const Customers_list = () => {
   const [stateId, setStateId] = useState("");
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
+  const currenDate = today.slice(-2);
+  const currentMonth = today.slice(-5, -3);
+  const currentyear = today.slice(0, 4);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
   useEffect(() => {
     getStates();
   }, []);
@@ -173,7 +177,7 @@ const Customers_list = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`CustList${today}|${hour}:${minute}.pdf`);
+        pdf.save(`CustList_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -295,7 +299,7 @@ const Customers_list = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={`CustList${today}|${hour}:${minute}`}
+                      filename={`CustList_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -395,7 +399,7 @@ const Customers_list = () => {
             </table>
             <div id="printDate">
               <p>
-                Date-{today} || {hour}:{minute}
+                Date-{formattedDate} || {hour}:{minute}
               </p>
             </div>
           </div>

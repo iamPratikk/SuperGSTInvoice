@@ -4,7 +4,7 @@ import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate, options } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, options, timeOptions, dateOptions } from "./CommonFunction";
 import logo from "../../assets/img/logo.jpeg";
 
 const Receivable_detail = () => {
@@ -23,7 +23,7 @@ const Receivable_detail = () => {
   const [userData, setUserData] = useState([]);
   const pdfRef = useRef();
   const d = new Date();
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
   const today = getCurrentDate();
@@ -33,6 +33,7 @@ const Receivable_detail = () => {
   const currenDate = dateTill.slice(-2);
   const currentMonth = dateTill.slice(-5, -3);
   const currentyear = dateTill.slice(0, 4);
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
 
   useEffect(() => {
     setDateTill(getCurrentDate());
@@ -161,7 +162,7 @@ const Receivable_detail = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`RecDetails${dateTill}|${hour}:${minute}.pdf`);
+        pdf.save(`RecDetails_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -291,7 +292,7 @@ const Receivable_detail = () => {
                 id="test-table"
                 table="mainTable"
                 className="dropdown-item"
-                filename={`RecDetails${dateTill}|${hour}:${minute}`}
+                filename={`RecDetails_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                 sheet="sheet 1"
                 buttonText="Export to Excel"
               />
@@ -401,7 +402,7 @@ const Receivable_detail = () => {
           </table>
           <div id="printDate">
             <p>
-              Date-{today} || {hour}:{minute}
+              Date-{formattedDate} || {hour}:{minute}
             </p>
           </div>
         </div>

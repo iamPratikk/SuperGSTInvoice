@@ -3,7 +3,7 @@ import GetCompany from "./GetCompany";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import TableToExcel from "react-html-table-to-excel";
-import { getOneWeekAgoDate, getCurrentDate } from "./CommonFunction";
+import { getOneWeekAgoDate, getCurrentDate, timeOptions, dateOptions } from "./CommonFunction";
 import axios from "axios";
 import logo from "../../assets/img/logo.jpeg";
 
@@ -31,10 +31,10 @@ const UserLog = () => {
   const currenDate = dateTill.slice(-2);
   const currentMonth = dateTill.slice(-5, -3);
   const currentyear = dateTill.slice(0, 4);
-  const currentTime = d.toLocaleTimeString();
+  const currentTime = d.toLocaleTimeString('en-IN',timeOptions);
   const hour = currentTime.slice(0, 2);
   const minute = currentTime.slice(3, 5);
-  const today = getCurrentDate();
+  const formattedDate= d.toLocaleDateString('en-IN',dateOptions);
 
   // console.log(prevYear)
 
@@ -127,7 +127,7 @@ const UserLog = () => {
           imgWidth * ratio,
           imgHeight * ratio
         );
-        pdf.save(`UserLog${dateTill}|${hour}:${minute}.pdf`);
+        pdf.save(`UserLog_${currentyear}${currentMonth}${currenDate}${hour}${minute}.pdf`);
       });
       printLabel.classList.remove("showLabel");
       printDate.classList.remove("showLabel");
@@ -251,7 +251,7 @@ const UserLog = () => {
                       id="test-table"
                       table="mainTable"
                       className="dropdown-item"
-                      filename={`UserLog${dateTill}|${hour}:${minute}`}
+                      filename={`UserLog_${currentyear}${currentMonth}${currenDate}${hour}${minute}`}
                       sheet="sheet 1"
                       buttonText="Export to Excel"
                     />
@@ -348,7 +348,7 @@ const UserLog = () => {
             </table>
             <div id="printDate">
               <p>
-                Date-{today} || {hour}:{minute}
+                Date-{formattedDate} || {hour}:{minute}
               </p>
             </div>
           </div>
